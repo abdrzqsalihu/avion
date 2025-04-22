@@ -20,8 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${soraSans.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${soraSans.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <Navbar />
         {children}
         <Footer />
