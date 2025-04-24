@@ -53,7 +53,7 @@ const Hero = () => {
             Shop the new Spring 2025 collection today
           </p>
 
-          <button className="p-3.5 px-5 bg-gray-100 mt-12 lg:mt-16 text-xs lg:text-sm text-gray-800 font-light">
+          <button className="p-3.5 px-5 bg-gray-100 mt-12 lg:mt-16 text-xs lg:text-sm text-gray-800 font-light cursor-pointer">
             View collection
           </button>
         </div>

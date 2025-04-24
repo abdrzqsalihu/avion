@@ -57,6 +57,9 @@ function ProductListings() {
           </div>
         ))}
       </div>
+      <button className="flex cursor-pointer mx-auto p-3.5 px-5 md:px-7 bg-gray-100 mt-12 lg:mt-16 text-xs lg:text-sm text-gray-800 font-light">
+        View collection
+      </button>
     </div>
   );
 }

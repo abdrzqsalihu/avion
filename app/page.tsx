@@ -1,3 +1,4 @@
+import Cta from "./components/Cta";
 import Features from "./components/Features";
 import Hero from "./components/Hero";
 import ProductListings from "./components/ProductListings";
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Features />
       <ProductListings />
+      <Cta />
     </div>
   );
 }
