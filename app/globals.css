@@ -65,3 +65,12 @@ body {
   stroke-dasharray: 20 300;
   stroke-dashoffset: -32.42;
 }
+
+
+/* CTA  */
+
+@media (min-width: 768px) {
+  .bg-shift-up {
+    background-position: center -150px;
+  }
+}

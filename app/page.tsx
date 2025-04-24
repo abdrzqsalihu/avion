@@ -1,6 +1,7 @@
 import Cta from "./components/Cta";
 import Features from "./components/Features";
 import Hero from "./components/Hero";
+import Newsletter from "./components/Newsletter";
 import ProductListings from "./components/ProductListings";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <Features />
       <ProductListings />
       <Cta />
+      <Newsletter />
     </div>
   );
 }
