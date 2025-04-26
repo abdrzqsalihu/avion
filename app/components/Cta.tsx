@@ -5,7 +5,7 @@ function Cta() {
   return (
     <div className="mx-auto max-w-screen-2xl p-4 lg:p-8">
       <section>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-18">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-10 md:mt-18">
           <div className="bg-[#2A254B] p-8 md:p-24">
             <div className="max-w-lg">
               <h2 className="text-lg text-white/90 sm:text-3xl font-light tracking-wider">
