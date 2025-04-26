@@ -1,5 +1,9 @@
+import Features from "@/app/components/Features";
+import Newsletter from "@/app/components/Newsletter";
+import ProductListings from "@/app/components/ProductListings";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
@@ -74,6 +78,25 @@ const page = () => {
           </div>
         </div>
       </div>
+      <div className="mx-auto max-w-screen-2xl p-4 lg:px-8">
+        <h2 className="text-lg md:text-2xl text-gray-800 font-light mt-12">
+          You might also like
+        </h2>
+      </div>
+
+      <ProductListings limit={4} />
+
+      <div className="flex justify-center">
+        <Link
+          href="/product"
+          className="cursor-pointer mx-auto p-3.5 px-5 md:px-7 bg-gray-100 text-xs lg:text-sm text-gray-800 font-light"
+        >
+          View collection
+        </Link>
+      </div>
+
+      <Features />
+      <Newsletter />
     </div>
   );
 };

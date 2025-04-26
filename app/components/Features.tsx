@@ -7,7 +7,7 @@ const Features = () => {
       <h2 className="text-center text-lg md:text-2xl text-gray-800 font-light mt-8">
         What makes our brand different
       </h2>
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 lg:gap-6 mt-13">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 lg:gap-6 mt-11">
         <div className="bg-gray-100 p-11">
           <Truck strokeWidth={0.8} />
           <h4 className="text-base md:text-lg font-light mt-3">
