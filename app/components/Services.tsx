@@ -15,7 +15,7 @@ function Services() {
 
         <div className="bg-gray-200 p-8 md:p-24">
           <div className="max-w-xl">
-            <h2 className="text-base md:text-lg text-gray-700 sm:text-3xl font-light tracking-wider leading-6.5 md:leading-10">
+            <h2 className="text-base text-gray-700 sm:text-2xl font-light tracking-wider leading-6.5 md:leading-9.5">
               Our service isn’t just personal, it’s actually hyper personally
               exquisite
             </h2>
