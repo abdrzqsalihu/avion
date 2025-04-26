@@ -7,7 +7,7 @@ import React, { useState } from "react";
 const Navbar = () => {
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "Shop", href: "/shop" },
+    { label: "Products", href: "/product" },
     { label: "About us", href: "/about" },
     { label: "Blog", href: "/blog" },
     { label: "Contact us", href: "/contact" },

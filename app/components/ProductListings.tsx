@@ -27,15 +27,41 @@ const products = [
     price: "£399",
     image: "/products/product4.png",
   },
+  {
+    id: 5,
+    title: "The Lucy Lamp",
+    price: "£399",
+    image: "/products/product5.png",
+  },
+  {
+    id: 6,
+    title: "The Lucy Lamp",
+    price: "£399",
+    image: "/products/product6.png",
+  },
+  {
+    id: 7,
+    title: "The Lucy Lamp",
+    price: "£399",
+    image: "/products/product7.png",
+  },
+  {
+    id: 8,
+    title: "The Lucy Lamp",
+    price: "£399",
+    image: "/products/product8.png",
+  },
 ];
 
-function ProductListings() {
+function ProductListings({ limit }: { limit?: number }) {
+  const displayedProducts = limit ? products.slice(0, limit) : products;
+
   return (
     <div className="mx-auto max-w-screen-2xl p-4 lg:p-8">
-      <div className="grid grid-cols-2 gap-5 lg:grid-cols-4 lg:gap-6 mt-14">
-        {products.map((product) => (
+      <div className="grid grid-cols-2 gap-5 lg:grid-cols-4 lg:gap-6">
+        {displayedProducts.map((product) => (
           <div key={product.id}>
-            <Link href="#" className="group block overflow-hidden">
+            <Link href="#" className="group block overflow-hidden mb-10">
               <div className="relative h-[210px] sm:h-[420px]">
                 <Image
                   src={product.image}
@@ -57,9 +83,6 @@ function ProductListings() {
           </div>
         ))}
       </div>
-      <button className="flex cursor-pointer mx-auto p-3.5 px-5 md:px-7 bg-gray-100 mt-12 lg:mt-16 text-xs lg:text-sm text-gray-800 font-light">
-        View collection
-      </button>
     </div>
   );
 }

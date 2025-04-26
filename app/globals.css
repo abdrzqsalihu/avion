@@ -73,4 +73,7 @@ body {
   .bg-shift-up {
     background-position: center -150px;
   }
+  .product-bg-shift-up {
+    background-position: center -950px;
+  }
 }
