@@ -61,7 +61,10 @@ function ProductListings({ limit }: { limit?: number }) {
       <div className="grid grid-cols-2 gap-5 lg:grid-cols-4 lg:gap-6">
         {displayedProducts.map((product) => (
           <div key={product.id}>
-            <Link href="#" className="group block overflow-hidden mb-10">
+            <Link
+              href={`/product/${product.id}`}
+              className="group block overflow-hidden mb-10"
+            >
               <div className="relative h-[210px] sm:h-[420px]">
                 <Image
                   src={product.image}
