@@ -153,8 +153,15 @@ const Navbar = () => {
           </nav>
 
           <div className="mt-8 border-t pt-6 flex items-center gap-6 text-gray-700">
-            <ShoppingCart className="w-6 h-6" strokeWidth={1.2} />
-            <UserCircle className="w-6 h-6" strokeWidth={1.2} />
+            <ShoppingCart strokeWidth={1.2} size={22} />
+            <button onClick={handleUserClick} className="cursor-pointer">
+              <UserCircle strokeWidth={1.2} size={22} />
+            </button>
+            {isLoggedIn && (
+              <button onClick={logout} className="cursor-pointer">
+                <LogOut strokeWidth={1.2} size={20} />
+              </button>
+            )}
           </div>
         </div>
       </div>
