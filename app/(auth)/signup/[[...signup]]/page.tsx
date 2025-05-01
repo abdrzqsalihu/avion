@@ -1,4 +1,5 @@
 "use client";
+import { useAuthStore } from "@/stores/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -12,6 +13,7 @@ function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { checkAuth } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +47,7 @@ function SignUpPage() {
           confirmButtonText: "Close",
         });
       } else {
+        await checkAuth(); // Check auth after successful signin
         Swal.fire({
           title: "Success!",
           text: "Account created successfully",
