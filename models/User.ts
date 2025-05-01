@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         lowercase: true,
+        index: true, // for faster email lookup
         match: [/\S+@\S+\.\S+/, "Please fill a valid email address"],
       },
       phone: {
