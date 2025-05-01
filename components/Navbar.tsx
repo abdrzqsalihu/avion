@@ -33,7 +33,9 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex sm:gap-6">
             <ShoppingCart strokeWidth={0.9} />
-            <UserCircle strokeWidth={0.9} />
+            <Link href="/signin">
+              <UserCircle strokeWidth={0.9} />
+            </Link>
           </div>
 
           <button className="cursor-pointer">
