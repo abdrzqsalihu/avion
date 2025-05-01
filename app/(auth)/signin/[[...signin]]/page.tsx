@@ -1,4 +1,5 @@
 "use client";
+import { useAuthStore } from "@/stores/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -9,6 +10,7 @@ function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { checkAuth } = useAuthStore();
 
   const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +33,7 @@ function SignInPage() {
           confirmButtonColor: "#2A254B",
         });
       } else {
+        await checkAuth(); // Check auth after successful signin
         Swal.fire({
           title: "Success!",
           text: "Sign in successfully",

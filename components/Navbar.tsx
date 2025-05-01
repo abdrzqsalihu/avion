@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthStore } from "@/stores/authStore";
 import { LogOut, Search, ShoppingCart, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,29 +16,20 @@ const Navbar = () => {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
+  const { isLoggedIn, checkAuth, logout } = useAuthStore();
+
   useEffect(() => {
-    const checkAuth = async () => {
-      const res = await fetch("/api/auth/check");
-      setIsLoggedIn(res.ok);
-    };
-    checkAuth();
+    checkAuth(); // Check auth on mount
   }, []);
 
   const handleUserClick = () => {
     router.push(isLoggedIn ? "/account" : "/signin");
-  };
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    setIsLoggedIn(false);
-    router.push("/signin");
   };
 
   return (
@@ -58,7 +50,7 @@ const Navbar = () => {
               <UserCircle strokeWidth={0.9} size={22} />
             </button>
             {isLoggedIn && (
-              <button onClick={handleLogout} className="cursor-pointer">
+              <button onClick={logout} className="cursor-pointer">
                 <LogOut strokeWidth={0.9} size={20} />
               </button>
             )}
