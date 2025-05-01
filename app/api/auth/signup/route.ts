@@ -3,9 +3,6 @@ import bcrypt from "bcryptjs";
 import { dbConnect } from "../../../../lib/dbConnect";
 import User from "@/models/User";
 import { signToken } from "@/lib/token";
-import { setAuthCookie } from "@/lib/cookies";
-
-
 
 export async function POST(req: Request) {
   try {
@@ -47,9 +44,19 @@ export async function POST(req: Request) {
     await newUser.save();
 
     const token = signToken({ id: newUser._id.toString(), email: newUser.email });
-    setAuthCookie(token);
 
-    return NextResponse.json({ message: "User registered successfully." }, { status: 201 });
+    const response = NextResponse.json({ message: "User registered successfully." }, { status: 201 });
+    
+    // Sets the cookie on the response
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+    });
+    
+    return response;
 
   } catch (err) {
     console.error("Register Error:", err);

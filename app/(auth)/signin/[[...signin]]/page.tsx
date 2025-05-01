@@ -1,11 +1,58 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          title: "Error!",
+          text: data.error,
+          icon: "error",
+          confirmButtonColor: "#2A254B",
+        });
+      } else {
+        Swal.fire({
+          title: "Success!",
+          text: "Sign in successfully",
+          icon: "success",
+          confirmButtonColor: "#2A254B",
+        }).then(() => {
+          router.push("/product");
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text:
+          err instanceof Error ? err.message : "An unexpected error occurred",
+        icon: "error",
+        confirmButtonColor: "#2A254B",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <main className="w-full flex flex-col items-center justify-center px-5 my-20">
@@ -23,7 +70,7 @@ function SignInPage() {
           )} */}
             </div>
           </div>
-          <form className="space-y-5">
+          <form onSubmit={handleSignin} className="space-y-5">
             <div>
               <label className="font-light text-sm">Email</label>
               <input
@@ -68,7 +115,7 @@ function SignInPage() {
               type="submit"
               className={`w-full px-4 py-2 text-white font-light hover:opacity-90 duration-150 
            flex items-center justify-center bg-[#2A254B]  ${
-             isLoading ? "opacity-75" : ""
+             isLoading ? "opacity-75 cursor-progress" : "cursor-pointer"
            }`}
               disabled={isLoading} // Disable button while loading
             >

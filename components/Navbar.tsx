@@ -1,8 +1,9 @@
 "use client";
 
-import { Search, ShoppingCart, UserCircle } from "lucide-react";
+import { LogOut, Search, ShoppingCart, UserCircle } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
   const navItems = [
@@ -14,9 +15,29 @@ const Navbar = () => {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const res = await fetch("/api/auth/check");
+      setIsLoggedIn(res.ok);
+    };
+    checkAuth();
+  }, []);
+
+  const handleUserClick = () => {
+    router.push(isLoggedIn ? "/account" : "/signin");
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setIsLoggedIn(false);
+    router.push("/signin");
   };
 
   return (
@@ -31,11 +52,16 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex sm:gap-6">
-            <ShoppingCart strokeWidth={0.9} />
-            <Link href="/signin">
-              <UserCircle strokeWidth={0.9} />
-            </Link>
+          <div className="hidden sm:flex items-center sm:gap-6.5">
+            <ShoppingCart strokeWidth={0.9} size={22} />
+            <button onClick={handleUserClick} className="cursor-pointer">
+              <UserCircle strokeWidth={0.9} size={22} />
+            </button>
+            {isLoggedIn && (
+              <button onClick={handleLogout} className="cursor-pointer">
+                <LogOut strokeWidth={0.9} size={20} />
+              </button>
+            )}
           </div>
 
           <button className="cursor-pointer">
