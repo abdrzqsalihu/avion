@@ -1,12 +1,25 @@
+"use client";
+
 import Features from "@/app/components/Features";
 import Newsletter from "@/app/components/Newsletter";
 import ProductListings from "@/app/components/ProductListings";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
-const page = () => {
+const SingleProductPage = () => {
+  const [filters] = useState<{
+    category: string[];
+    productType: string[];
+    price: string[];
+  }>({
+    category: [],
+    productType: [],
+    price: [],
+  });
+
+  const [sortBy] = useState<string>("Date Added");
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center">
@@ -84,7 +97,7 @@ const page = () => {
         </h2>
       </div>
 
-      <ProductListings limit={4} />
+      <ProductListings filters={filters} sortBy={sortBy} limit={4} />
 
       <div className="flex justify-center">
         <Link
@@ -101,4 +114,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SingleProductPage;
