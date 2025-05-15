@@ -1,10 +1,24 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import ProductListings from "../components/ProductListings";
 import ProductFilter from "../components/ProductFilter";
 
 const ProductPage = () => {
+  const [filters, setFilters] = useState<{
+    category: string[];
+    productType: string[];
+    price: string[];
+  }>({
+    category: [],
+    productType: [],
+    price: [],
+  });
+
+  const [sortBy, setSortBy] = useState<string>("Date Added");
+
   return (
     <div>
+      {/* Hero Section */}
       <section className="product-bg-shift-up overflow-hidden bg-[url(/product_bg.jpg)] bg-cover bg-no-repeat">
         <div className="bg-black/10 p-8 py-12 md:p-12 lg:px-16 lg:py-24">
           <div className="mx-auto max-w-screen-2xl md:px-8">
@@ -14,8 +28,9 @@ const ProductPage = () => {
           </div>
         </div>
       </section>
-      <ProductFilter />
-      <ProductListings />
+
+      <ProductFilter onFilterChange={setFilters} onSortChange={setSortBy} />
+      <ProductListings filters={filters} sortBy={sortBy} />
     </div>
   );
 };
