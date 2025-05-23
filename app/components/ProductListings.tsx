@@ -14,6 +14,7 @@ interface ListingsProps {
     price: string[];
   };
   sortBy: string;
+  excludeProductId?: number;
 }
 
 function ProductListings({
@@ -21,6 +22,7 @@ function ProductListings({
   onProductsLoaded,
   filters,
   sortBy,
+  excludeProductId,
 }: ListingsProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +67,9 @@ function ProductListings({
 
   const filterProducts = (all: Product[]) => {
     return all.filter((product) => {
+      if (excludeProductId && product._id === excludeProductId) {
+        return false;
+      }
       const inCategory =
         !filters?.category?.length ||
         filters.category.includes(product.category || "");
