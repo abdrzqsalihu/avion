@@ -26,7 +26,7 @@ const Navbar = () => {
 
   useEffect(() => {
     checkAuth(); // Check auth on mount
-  }, []);
+  }, [checkAuth]);
 
   const handleUserClick = () => {
     router.push(isLoggedIn ? "/account" : "/signin");
