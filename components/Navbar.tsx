@@ -45,7 +45,9 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center sm:gap-6.5">
-            <ShoppingCart strokeWidth={0.9} size={22} />
+            <Link href="/cart">
+              <ShoppingCart strokeWidth={0.9} size={22} />
+            </Link>
             <button onClick={handleUserClick} className="cursor-pointer">
               <UserCircle strokeWidth={0.9} size={22} />
             </button>
@@ -153,7 +155,9 @@ const Navbar = () => {
           </nav>
 
           <div className="mt-8 border-t pt-6 flex items-center gap-6 text-gray-700">
-            <ShoppingCart strokeWidth={1.2} size={22} />
+            <Link href="/cart">
+              <ShoppingCart strokeWidth={1.2} size={22} />
+            </Link>
             <button onClick={handleUserClick} className="cursor-pointer">
               <UserCircle strokeWidth={1.2} size={22} />
             </button>
