@@ -52,7 +52,7 @@ function CartListing() {
 
   return (
     <div className="w-full mt-10 md:mt-14">
-      <div className="mb-8 overflow-x-auto">
+      <div className="mb-8 overflow-x-auto hidden md:block">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200 text-left">
@@ -122,7 +122,62 @@ function CartListing() {
           </tbody>
         </table>
       </div>
+      <div className="md:hidden">
+        {mockCartItems.map((item) => (
+          <div key={item._id} className="border-b border-gray-200">
+            <div className="py-8">
+              <div className="flex items-center gap-4">
+                <div className="relative h-36 w-36 overflow-hidden bg-gray-100">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <div className="space-y-2">
+                    <h3 className="font-normal text-base tracking-wide text-gray-800">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-gray-600 font-light max-w-xs line-clamp-2">
+                      {item.description}
+                    </p>
+                    <p className="mt-1 text-sm">£{item.price}</p>
+                  </div>
+                  <div className="flex items-center justify-between bg-gray-100 px-3.5 w-[45%] mt-3">
+                    <button
+                      type="button"
+                      onClick={handleDecreaseQuantity}
+                      className="text-gray-600 transition hover:opacity-75 cursor-pointer"
+                    >
+                      <Minus strokeWidth={0.9} size={15} />
+                    </button>
 
+                    <input
+                      type="number"
+                      id="Quantity"
+                      value={quantity}
+                      onChange={(e) =>
+                        setQuantity(parseInt(e.target.value) || 1)
+                      }
+                      className="h-8 w-10 border-none focus:border-none text-center text-gray-700 font-extralight text-sm [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={handleIncreaseQuantity}
+                      className="text-gray-600 transition hover:opacity-75 cursor-pointer"
+                    >
+                      <Plus strokeWidth={0.9} size={15} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="flex justify-end">
         <div className="w-full max-w-md">
           <div className="flex justify-end gap-5 pb-4 text-base md:text-lg font-light">
