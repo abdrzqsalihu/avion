@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 
 // Update item quantity in cart
-export async function PATCH(request: NextRequest, { params }: { params: { productId: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ productId: string }> }) {
   try {
     await dbConnect();
     
@@ -60,7 +60,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { produc
 }
 
 // Remove item from cart
-export async function DELETE(request: NextRequest, { params }: { params: { productId: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ productId: string }> }) {
   try {
     await dbConnect();
     

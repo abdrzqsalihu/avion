@@ -1,12 +1,16 @@
 "use client";
 
 import { useAuthStore } from "@/stores/authStore";
+import { useCartStore } from "@/stores/cartStore";
 import { LogOut, Search, ShoppingCart, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const { items } = useCartStore();
+  const cartItemCount = items.length;
+
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Products", href: "/product" },
@@ -45,8 +49,13 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center sm:gap-6.5">
-            <Link href="/cart">
+            <Link href="/cart" className="relative">
               <ShoppingCart strokeWidth={0.9} size={22} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#2A254B] text-xs text-white">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
             <button onClick={handleUserClick} className="cursor-pointer">
               <UserCircle strokeWidth={0.9} size={22} />
@@ -155,8 +164,13 @@ const Navbar = () => {
           </nav>
 
           <div className="mt-8 border-t pt-6 flex items-center gap-6 text-gray-700">
-            <Link href="/cart">
+            <Link href="/cart" className="relative">
               <ShoppingCart strokeWidth={1.2} size={22} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#2A254B] text-xs text-white">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
             <button onClick={handleUserClick} className="cursor-pointer">
               <UserCircle strokeWidth={1.2} size={22} />
