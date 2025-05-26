@@ -14,3 +14,14 @@ export const verifyToken = (token: string) => {
     return null;
   }
 };
+
+// Extract user ID from token
+export const getToken = (token: string) => {
+  const decoded = verifyToken(token);
+  if (!decoded || typeof decoded !== 'object') {
+    return null;
+  }
+  
+  // The 'id' property comes from how we signed the token
+  return (decoded as { id: string }).id;
+};

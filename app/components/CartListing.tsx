@@ -1,54 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { Product } from "@/types/products";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { useCartStore } from "@/stores/cartStore";
+import Link from "next/link";
 
-interface CartItem extends Product {
+interface CartItem {
+  productId: number;
+  product: Product;
   quantity: number;
 }
 
-// This is a mock data for demonstration purposes
-// In a real application, you would fetch this from your cart state or API
-const mockCartItems: CartItem[] = [
-  {
-    _id: 1,
-    title: "Graystone vase",
-    createdAt: "2023-01-01",
-    sales: 10,
-    price: "85",
-    description: "A timeless ceramic vase with a fit color grey glaze.",
-    image: "/products/product1.png",
-    quantity: 1,
-  },
-  {
-    _id: 2,
-    title: "Basic white vase",
-    createdAt: "2023-01-02",
-    sales: 15,
-    price: "125",
-    description: "Beautiful and simple this is one for the classics",
-    image: "/products/product2.png",
-    quantity: 1,
-  },
-];
+interface CartListingProps {
+  items: CartItem[];
+}
 
-function CartListing() {
-  const [quantity, setQuantity] = useState(1);
-  // Calculate total price
-  const total = mockCartItems.reduce(
-    (sum, item) => sum + parseInt(item.price) * item.quantity,
+function CartListing({ items }: CartListingProps) {
+  const { updateQuantity, removeFromCart } = useCartStore();
+
+  const total = items.reduce(
+    (sum, item) => sum + parseInt(item.product.price) * item.quantity,
     0
   );
 
-  const handleIncreaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const handleDecreaseQuantity = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
+  if (items.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-gray-600">Your cart is empty</p>
+        <button className="mt-8">
+          <Link
+            href="/product"
+            className=" w-full bg-[#2A254B] py-3 font-light text-sm  text-white hover:opacity-95 px-10"
+          >
+            Continue shopping
+          </Link>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mt-10 md:mt-14">
@@ -59,29 +50,30 @@ function CartListing() {
               <th className="pb-4 font-light">Product</th>
               <th className="pb-4 font-light">Quantity</th>
               <th className="pb-4 font-light text-right">Total</th>
+              <th className="pb-4 font-light text-right">Action</th>
             </tr>
           </thead>
           <tbody>
-            {mockCartItems.map((item) => (
-              <tr key={item._id} className="border-b border-gray-200">
+            {items.map((item) => (
+              <tr key={item.productId} className="border-b border-gray-200">
                 <td className="py-8">
                   <div className="flex items-center gap-4">
                     <div className="relative h-24 w-20 overflow-hidden bg-gray-100">
                       <Image
-                        src={item.image}
-                        alt={item.title}
+                        src={item.product.image || ""}
+                        alt={item.product.title}
                         fill
                         className="object-cover"
                       />
                     </div>
                     <div className="space-y-1.5">
                       <h3 className="font-normal tracking-wide text-gray-800">
-                        {item.title}
+                        {item.product.title}
                       </h3>
                       <p className="text-xs text-gray-600 font-light max-w-xs line-clamp-2">
-                        {item.description}
+                        {item.product.description}
                       </p>
-                      <p className="mt-1">£{item.price}</p>
+                      <p className="mt-1">£{item.product.price}</p>
                     </div>
                   </div>
                 </td>
@@ -89,7 +81,12 @@ function CartListing() {
                   <div className="flex items-center justify-between bg-gray-100 px-3.5 w-[50%] -ml-5">
                     <button
                       type="button"
-                      onClick={handleDecreaseQuantity}
+                      onClick={() =>
+                        updateQuantity(
+                          item.productId,
+                          Math.max(1, item.quantity - 1)
+                        )
+                      }
                       className="text-gray-600 transition hover:opacity-75 cursor-pointer"
                     >
                       <Minus strokeWidth={0.9} size={15} />
@@ -98,16 +95,21 @@ function CartListing() {
                     <input
                       type="number"
                       id="Quantity"
-                      value={quantity}
+                      value={item.quantity}
                       onChange={(e) =>
-                        setQuantity(parseInt(e.target.value) || 1)
+                        updateQuantity(
+                          item.productId,
+                          parseInt(e.target.value) || 1
+                        )
                       }
                       className="h-10 w-14 border-none focus:border-none text-center text-gray-700 font-extralight sm:text-sm [&::-webkit-inner-spin-button]:appearance-none"
                     />
 
                     <button
                       type="button"
-                      onClick={handleIncreaseQuantity}
+                      onClick={() =>
+                        updateQuantity(item.productId, item.quantity + 1)
+                      }
                       className="text-gray-600 transition hover:opacity-75 cursor-pointer"
                     >
                       <Plus strokeWidth={0.9} size={15} />
@@ -115,7 +117,16 @@ function CartListing() {
                   </div>
                 </td>
                 <td className="py-4 text-right text-gray-800">
-                  £{parseInt(item.price) * item.quantity}
+                  £{parseInt(item.product.price) * item.quantity}
+                </td>
+                <td className="py-4 text-right text-gray-800">
+                  <button
+                    type="button"
+                    onClick={() => removeFromCart(item.productId)}
+                    className="text-red-500 transition hover:opacity-75 cursor-pointer"
+                  >
+                    <Trash2 strokeWidth={0.9} size={15} />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -123,14 +134,14 @@ function CartListing() {
         </table>
       </div>
       <div className="md:hidden">
-        {mockCartItems.map((item) => (
-          <div key={item._id} className="border-b border-gray-200">
+        {items.map((item) => (
+          <div key={item.productId} className="border-b border-gray-200">
             <div className="py-8">
               <div className="flex items-center gap-4">
                 <div className="relative h-36 w-36 overflow-hidden bg-gray-100">
                   <Image
-                    src={item.image}
-                    alt={item.title}
+                    src={item.product.image}
+                    alt={item.product.title}
                     fill
                     className="object-cover"
                   />
@@ -138,17 +149,22 @@ function CartListing() {
                 <div>
                   <div className="space-y-2">
                     <h3 className="font-normal text-base tracking-wide text-gray-800">
-                      {item.title}
+                      {item.product.title}
                     </h3>
                     <p className="text-xs text-gray-600 font-light max-w-xs line-clamp-2">
-                      {item.description}
+                      {item.product.description}
                     </p>
-                    <p className="mt-1 text-sm">£{item.price}</p>
+                    <p className="mt-1 text-sm">£{item.product.price}</p>
                   </div>
                   <div className="flex items-center justify-between bg-gray-100 px-3.5 w-[45%] mt-3">
                     <button
                       type="button"
-                      onClick={handleDecreaseQuantity}
+                      onClick={() =>
+                        updateQuantity(
+                          item.productId,
+                          Math.max(1, item.quantity - 1)
+                        )
+                      }
                       className="text-gray-600 transition hover:opacity-75 cursor-pointer"
                     >
                       <Minus strokeWidth={0.9} size={15} />
@@ -157,16 +173,21 @@ function CartListing() {
                     <input
                       type="number"
                       id="Quantity"
-                      value={quantity}
+                      value={item.quantity}
                       onChange={(e) =>
-                        setQuantity(parseInt(e.target.value) || 1)
+                        updateQuantity(
+                          item.productId,
+                          parseInt(e.target.value) || 1
+                        )
                       }
                       className="h-8 w-10 border-none focus:border-none text-center text-gray-700 font-extralight text-sm [&::-webkit-inner-spin-button]:appearance-none"
                     />
 
                     <button
                       type="button"
-                      onClick={handleIncreaseQuantity}
+                      onClick={() =>
+                        updateQuantity(item.productId, item.quantity + 1)
+                      }
                       className="text-gray-600 transition hover:opacity-75 cursor-pointer"
                     >
                       <Plus strokeWidth={0.9} size={15} />

@@ -3,6 +3,8 @@
 import Features from "@/app/components/Features";
 import Newsletter from "@/app/components/Newsletter";
 import ProductListings from "@/app/components/ProductListings";
+import { useAuthStore } from "@/stores/authStore";
+import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/products";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
@@ -18,8 +20,10 @@ const SingleProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-
   const [sortBy] = useState<string>("Date Added");
+
+  const { isLoggedIn } = useAuthStore();
+  const { addToCart, isLoading: isAddingToCart } = useCartStore();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -52,6 +56,25 @@ const SingleProductPage = () => {
 
   const handleDecreaseQuantity = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      // Redirect to login page if user is not logged in
+      window.location.href =
+        "/signin?redirect=" + encodeURIComponent(window.location.pathname);
+      return;
+    }
+
+    try {
+      if (product) {
+        await addToCart(product._id, product, quantity);
+      }
+      // toast.success("Item added to cart!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // toast.error("Failed to add item to cart. Please try again.");
+    }
   };
 
   if (loading) {
@@ -127,11 +150,13 @@ const SingleProductPage = () => {
             </div>
 
             <button
-              type="submit"
+              type="button"
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
               className="bg-[#2A254B] p-3.5 px-7 text-white w-full sm:w-auto mt-5 sm:mt-0 cursor-pointer"
             >
               <span className="text-xs md:text-sm font-extralight">
-                Add to cart
+                {isAddingToCart ? "Adding..." : "Add to cart"}
               </span>
             </button>
           </div>
