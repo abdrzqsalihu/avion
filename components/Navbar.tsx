@@ -34,6 +34,7 @@ const Navbar = () => {
 
   const handleUserClick = () => {
     router.push(isLoggedIn ? "/account" : "/signin");
+    toggleMenu();
   };
 
   return (
@@ -164,7 +165,7 @@ const Navbar = () => {
           </nav>
 
           <div className="mt-8 border-t pt-6 flex items-center gap-6 text-gray-700">
-            <Link href="/cart" className="relative">
+            <Link href="/cart" className="relative" onClick={toggleMenu}>
               <ShoppingCart strokeWidth={1.2} size={22} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-2 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#2A254B] text-xs text-white">
@@ -176,7 +177,13 @@ const Navbar = () => {
               <UserCircle strokeWidth={1.2} size={22} />
             </button>
             {isLoggedIn && (
-              <button onClick={logout} className="cursor-pointer">
+              <button
+                onClick={() => {
+                  logout();
+                  toggleMenu();
+                }}
+                className="cursor-pointer"
+              >
                 <LogOut strokeWidth={1.2} size={20} />
               </button>
             )}

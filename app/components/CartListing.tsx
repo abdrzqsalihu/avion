@@ -199,7 +199,7 @@ function CartListing({ items }: CartListingProps) {
           </div>
         ))}
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-4 md:mt-0">
         <div className="w-full max-w-md">
           <div className="flex justify-end gap-5 pb-4 text-base md:text-lg font-light">
             <span className="text-[#2A254B]">Subtotal</span>
