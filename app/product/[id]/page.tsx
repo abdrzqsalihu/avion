@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const SingleProductPage = () => {
   const params = useParams();
@@ -70,10 +71,10 @@ const SingleProductPage = () => {
       if (product) {
         await addToCart(product._id, product, quantity);
       }
-      // toast.success("Item added to cart!");
+      toast.success("Item added to cart!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      // toast.error("Failed to add item to cart. Please try again.");
+      toast.error("Failed to add item to cart. Please try again.");
     }
   };
 

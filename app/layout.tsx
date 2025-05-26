@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const soraSans = Sora({
   variable: "--font-sora",
@@ -26,6 +27,7 @@ export default function RootLayout({
         className={`${soraSans.variable} antialiased`}
         suppressHydrationWarning
       >
+        <Toaster position="top-right" />
         <Navbar />
         {children}
         <Footer />
