@@ -34,7 +34,7 @@ const Navbar = () => {
 
   const handleUserClick = () => {
     router.push(isLoggedIn ? "/account" : "/signin");
-    toggleMenu();
+    setIsMenuOpen(false);
   };
 
   return (
